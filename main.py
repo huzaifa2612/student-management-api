@@ -13,8 +13,24 @@ students={  #dic  key-value
 class StudentCreate(BaseModel):  #	Pydantic model create karta hai
     name: str = Field(min_length=2, max_length=50)
 
-@app.post("/students", status_code=201)
-def create_student(student: StudentCreate):
+class StudentResponse(BaseModel):
+    student_id: int
+    name: str
+    message: str
+
+
+class StudentListItem(BaseModel):
+    student_id: int
+    name: str
+
+
+class StudentDeleteResponse(BaseModel):
+    student_id: int
+    message: str    
+
+@app.post("/students", status_code=201, response_model=StudentResponse)  # sif wohi field display hon gi jo response model ki class mai defined han 
+                                                          #us k illawa agar kuch return mai bhejin gy to to reutn nhi ho ga
+def create_student(student: StudentCreate): 
     if students:
         new_id=max(students.keys())+1
     else:
@@ -26,7 +42,7 @@ def create_student(student: StudentCreate):
         "message": "Student Created"
     }
 
-@app.get("/students/{student_id}")
+@app.get("/students/{student_id}", response_model=StudentResponse)
 def get_student(student_id: int):
     if student_id not in students:
         raise HTTPException(
@@ -37,10 +53,11 @@ def get_student(student_id: int):
     return{
         "student_id": student_id,
         "name": students[student_id],
-        "message": "Student Found"
+        "message": "Student Found",
+        "internal_note": "This should not reach the client"
     }
 
-@app.get("/students")
+@app.get("/students", response_model=list[StudentListItem])
 def get_all_students():
     student_list=[]   #list   index         
 
@@ -52,7 +69,7 @@ def get_all_students():
 
     return student_list
 
-@app.put("/students/{student_id}")
+@app.put("/students/{student_id}", response_model=StudentResponse)
 def update_student(student_id:int, new_name:StudentCreate):
     if student_id not in students:
         raise HTTPException(
@@ -69,7 +86,7 @@ def update_student(student_id:int, new_name:StudentCreate):
         "message": "Student Updated"    
     }    
 
-@app.delete("/students/{student_id}")
+@app.delete("/students/{student_id}", response_model=StudentDeleteResponse)
 def delete_student(student_id: int):
     if student_id not in students:
         raise HTTPException(

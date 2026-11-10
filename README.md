@@ -2,60 +2,133 @@
 
 # 🎓 Student Management API
 
-### A REST API for managing and retrieving student records with Python and FastAPI
+### A RESTful API for managing student records with Python and FastAPI
 
-A beginner-friendly backend project built while learning API development. The current version stores sample student data in memory, provides a GET endpoint to retrieve a student by ID, handles missing student records with a 404 response, and configures CORS for a local frontend.
+A beginner-friendly backend project built as part of my practical journey into **Python Backend Development and Applied AI Engineering**. The API is being developed to create, retrieve, update, and delete student records, with request validation and HTTP error handling.
 
-![Python](https://img.shields.io/badge/Python-Language-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-Backend%20API-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend%20Framework-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Pydantic](https://img.shields.io/badge/Pydantic-Data%20Validation-E92063?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Project-In%20Development-orange?style=for-the-badge)
 
-[Overview](#-overview) • [Features](#-feature-progress) • [API](#-available-api-endpoint) • [Setup](#-getting-started) • [Roadmap](#-remaining-work)
+[Overview](#-project-overview) • [Features](#-implemented-features) • [Technologies](#-technologies-used) • [API](#-api-endpoints) • [Setup](#-getting-started) • [Roadmap](#-upcoming-improvements)
 
 </div>
 
 ---
 
-## 📌 Overview
+## 📌 Project Overview
 
-The **Student Management API** is a learning project for understanding how to build backend services with **Python** and **FastAPI**. It currently uses a Python dictionary as temporary in-memory storage for student records.
+The **Student Management API** is a RESTful backend project built using **Python** and **FastAPI**. It provides API endpoints for managing student records through Create, Read, Update, and Delete (CRUD) operations.
 
-The implemented endpoint retrieves a student using their ID. If the requested ID does not exist, the API returns an HTTP `404 Not Found` response.
+The current project uses an **in-memory Python dictionary** for storing student information and **Pydantic models** for validating incoming request data.
 
-> **Project status:** In development. The current version supports reading a student record. Create, update, delete, and input-validation features are still pending.
+This project is part of my hands-on learning journey in backend development, REST APIs, request validation, and API testing.
 
-## ✨ Feature Progress
+## ✨ Implemented Features
 
-The table below reflects the current implementation status shown in the project and its supplied progress screenshot.
+The following features are included in the current project version:
 
-| Feature | Status |
+- **Create Student:** Add new student records through POST requests.
+- **Get Student by ID:** Retrieve an individual student record using its ID.
+- **Get All Students:** Retrieve all available student records.
+- **Update Student:** Modify the information of an existing student.
+- **Delete Student:** Remove a student record.
+- **Automatic ID Generation:** Generate student IDs automatically for new records.
+- **Data Validation:** Validate student names using Pydantic.
+- **Error Handling:** Return HTTP 404 responses when a requested student record does not exist.
+- **CORS Middleware:** Configure cross-origin requests for a local frontend.
+- **Interactive API Documentation:** Explore and test API endpoints using Swagger UI.
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
 |---|---|
-| FastAPI application | ✅ Done |
-| Student data storage (in-memory dictionary) | ✅ Done |
-| GET student by ID | ✅ Done |
-| 404 error handling for an unknown student ID | ✅ Done |
-| CORS middleware configuration | ✅ Done |
-| Swagger UI testing | ✅ Done |
-| POST — Add Student | ⏳ Pending |
-| PUT — Update Student | ⏳ Pending |
-| DELETE — Remove Student | ⏳ Pending |
-| Input validation | ⏳ Pending |
+| Python | Programming language |
+| FastAPI | Backend API framework |
+| Pydantic | Request data validation |
+| Uvicorn | ASGI development server |
+| CORSMiddleware | Cross-origin resource sharing |
+| Swagger UI | API documentation and testing |
+| Git & GitHub | Version control and source code hosting |
 
-## 🔌 Available API Endpoint
+## 📂 Project Structure
 
-### Get a student by ID
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| `GET` | `/students/{student_id}` | Retrieve a student using their ID |
-
-**Example request**
-
-```http
-GET http://127.0.0.1:8000/students/1
+```text
+student-management-api/
+│
+├── main.py
+├── requirements.txt
+├── .gitignore
+└── README.md
 ```
 
-**Successful response — student found (`200 OK`)**
+## 🔌 API Endpoints
+
+The project is designed around the following REST API endpoints:
+
+| Method | Endpoint | Description | Expected Status |
+|---|---|---|---|
+| `POST` | `/students` | Create a student | `201 Created` |
+| `GET` | `/students` | Retrieve all students | `200 OK` |
+| `GET` | `/students/{student_id}` | Retrieve a student by ID | `200 OK` / `404 Not Found` |
+| `PUT` | `/students/{student_id}` | Update a student | `200 OK` / `404 Not Found` |
+| `DELETE` | `/students/{student_id}` | Delete a student | `200 OK` / `404 Not Found` |
+
+## 📝 API Usage Examples
+
+The following examples illustrate the intended request and response formats for the API.
+
+### 1. Create Student
+
+**POST** `/students`
+
+Request Body:
+
+```json
+{
+  "name": "Sara"
+}
+```
+
+Example Successful Response:
+
+```json
+{
+  "student_id": 4,
+  "name": "Sara",
+  "message": "Student Created"
+}
+```
+
+### 2. Get All Students
+
+**GET** `/students`
+
+Example Response:
+
+```json
+[
+  {
+    "student_id": 1,
+    "name": "Ali"
+  },
+  {
+    "student_id": 2,
+    "name": "Ahmad"
+  },
+  {
+    "student_id": 3,
+    "name": "Huzaifa"
+  }
+]
+```
+
+### 3. Get Student by ID
+
+**GET** `/students/1`
+
+Example Response:
 
 ```json
 {
@@ -65,119 +138,176 @@ GET http://127.0.0.1:8000/students/1
 }
 ```
 
-The current sample data contains these records:
+### 4. Update Student
 
-| Student ID | Name |
-|---:|---|
-| 1 | Ali |
-| 2 | Ahmad |
-| 3 | Huzaifa |
+**PUT** `/students/1`
 
-**Error response — student not found (`404 Not Found`)**
-
-For an ID that is not present in the dictionary, the API returns:
+Request Body:
 
 ```json
 {
-  "detail": "Student not Found"
+  "name": "Ali Khan"
 }
 ```
 
-## 🛠️ Technologies Used
+Example Successful Response:
 
-- **Python** — programming language
-- **FastAPI** — API framework
-- **CORSMiddleware** — cross-origin request configuration
-- **Swagger UI** — interactive API documentation and testing interface provided by FastAPI
-- **Uvicorn** — ASGI server used to run the application locally
-
-## 🚀 Getting Started
-
-Follow these steps to run the current version on your computer.
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/huzaifa2612/student-management-api.git
+```json
+{
+  "student_id": 1,
+  "name": "Ali Khan",
+  "message": "Student Updated"
+}
 ```
 
-### 2. Open the project folder
+### 5. Delete Student
 
-```bash
-cd student-management-api
+**DELETE** `/students/1`
+
+Example Response:
+
+```json
+{
+  "student_id": 1,
+  "message": "Student Deleted Successfully"
+}
 ```
 
-### 3. Install the required packages
+## ⚠️ Data Validation and Error Handling
 
-```bash
-python -m pip install fastapi uvicorn
-```
+Student names are validated using **Pydantic**.
 
-### 4. Run the API
+The current validation rules are:
 
-```bash
-python -m uvicorn main:app --reload
-```
-
-The API should now be available at:
-
-```text
-http://127.0.0.1:8000
-```
-
-## 📖 API Documentation & Testing
-
-FastAPI provides interactive API documentation automatically when the application is running.
-
-- **Swagger UI:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **ReDoc:** [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
-
-Open Swagger UI, expand `GET /students/{student_id}`, select **Try it out**, enter a student ID such as `1`, and execute the request. Try an unknown ID, such as `99`, to see the 404 response.
+- Minimum student name length: **2 characters**
+- Maximum student name length: **50 characters**
+- Invalid request data returns HTTP **422 Unprocessable Entity**.
+- A student ID that does not exist returns HTTP **404 Not Found**.
 
 ## 🌐 CORS Configuration
 
-The current code configures CORS for this frontend origin:
+The API is configured to accept cross-origin requests from the following local frontend origin:
 
 ```text
 http://localhost:3000
 ```
 
-It sets `allow_credentials=False`, allows the methods `GET`, `POST`, `PUT`, and `DELETE` at the middleware level, and allows the `Content-Type` and `Authorization` headers.
+**Allowed HTTP methods:**
 
-**Note:** Allowing an HTTP method in CORS does not create an API route for that method. At present, the code implements only `GET /students/{student_id}`. The POST, PUT, and DELETE endpoints remain pending.
+- `GET`
+- `POST`
+- `PUT`
+- `DELETE`
 
-## 🗂️ Project Structure
+**Allowed request headers:**
 
-```text
-student-management-api/
-│
-├── main.py        # FastAPI application, sample data, GET endpoint and CORS setup
-└── README.md      # Project documentation
+- `Content-Type`
+- `Authorization`
+
+CORS credentials are currently disabled (`allow_credentials=False`).
+
+## 🚀 Getting Started
+
+Follow these steps to run the project locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/huzaifa2612/student-management-api.git
 ```
 
-## 🧭 Remaining Work
+### 2. Open the Project Directory
 
-The following items are not implemented in the supplied version of the code and are listed as pending in the project progress screenshot:
+```bash
+cd student-management-api
+```
 
-1. **POST — Add Student:** create and store a new student record.
-2. **PUT — Update Student:** update an existing student's information.
-3. **DELETE — Remove Student:** delete a student record.
-4. **Input validation:** validate incoming data and handle invalid input appropriately.
+### 3. Create a Virtual Environment
 
-These are planned tasks, not current capabilities.
+```bash
+python -m venv .venv
+```
+
+### 4. Activate the Virtual Environment
+
+**Windows PowerShell:**
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**Windows CMD:**
+
+```cmd
+.venv\Scripts\activate.bat
+```
+
+### 5. Install Dependencies
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 6. Run the Application
+
+```bash
+uvicorn main:app --reload
+```
+
+The API will be available at:
+
+```text
+http://127.0.0.1:8000
+```
+
+## 📖 API Documentation
+
+FastAPI automatically generates interactive API documentation.
+
+- **Swagger UI:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **ReDoc:** [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+Open Swagger UI to explore the available endpoints, provide request data, and test API responses directly from your browser.
+
+## ⚠️ Current Project Limitations
+
+This project is currently an early-stage backend application with the following limitations:
+
+- Student records are stored in an **in-memory Python dictionary**.
+- Data is not persistent and resets when the server restarts.
+- PostgreSQL database integration has not been implemented yet.
+- Automated testing with Pytest has not been implemented yet.
+- Authentication and authorization have not been implemented yet.
+- The application currently uses a single Python file.
+
+## 🗺️ Upcoming Improvements
+
+The following improvements are planned for future development:
+
+- PostgreSQL database integration.
+- SQLAlchemy ORM.
+- A more organized and scalable backend project architecture.
+- Response models and improved request validation.
+- Automated testing using Pytest.
+- Environment variable configuration.
+- JWT-based authentication and authorization.
+- Pagination and filtering.
+- Docker containerization.
+- Cloud deployment.
 
 ## 👨‍💻 Author
 
-**Muhammad Huzaifa**  
-Computer Science Student | Learning Python and Backend Development
+**Muhammad Huzaifa**
 
-- GitHub: [@huzaifa2612](https://github.com/huzaifa2612)
-- Repository: [student-management-api](https://github.com/huzaifa2612/student-management-api)
+Computer Science Student | Learning Python Backend Development and Applied AI Engineering.
+
+- **GitHub:** [@huzaifa2612](https://github.com/huzaifa2612)
+- **Repository:** [student-management-api](https://github.com/huzaifa2612/student-management-api)
 
 ---
 
 <div align="center">
 
-*Built as part of a hands-on journey into Python backend and API development.*
+*Built with Python and FastAPI as part of a hands-on software engineering learning journey.*
 
 </div>

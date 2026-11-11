@@ -4,7 +4,7 @@
 
 ### A RESTful API for managing student records with Python and FastAPI
 
-A beginner-friendly backend project built as part of my practical journey into **Python Backend Development and Applied AI Engineering**. The API supports creating, retrieving, updating, and deleting student records, with Pydantic request validation, response models, and HTTP error handling.
+A beginner-friendly backend project built as part of my practical journey into **Python Backend Development and Applied AI Engineering**. The API supports creating, retrieving, updating, and deleting student records, with Pydantic field constraints, custom field validation, response models, and HTTP error handling.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend%20Framework-009688?style=for-the-badge&logo=fastapi&logoColor=white)
@@ -36,6 +36,7 @@ The following features are implemented in the current project version:
 - **Delete Student:** Remove an existing student record.
 - **Automatic ID Generation:** Generate a new student ID based on the current records.
 - **Request Validation:** Validate student names with Pydantic `Field` constraints (minimum 2 and maximum 50 characters).
+- **Advanced Field Validation:** Use Pydantic `@field_validator` with `mode="after"` to reject names containing numeric digits.
 - **Response Models:** Define the expected output structure for create, read, update, list, and delete operations.
 - **Response Filtering:** Use FastAPI response models to return only the fields defined by the relevant model.
 - **Error Handling:** Return HTTP `404 Not Found` when a requested student ID does not exist.
@@ -48,7 +49,7 @@ The following features are implemented in the current project version:
 |---|---|
 | Python | Programming language |
 | FastAPI | Backend API framework |
-| Pydantic | Request validation and data models |
+| Pydantic | Request models, field constraints, custom validation, and response data models |
 | Uvicorn | ASGI development server |
 | CORSMiddleware | Cross-origin resource sharing |
 | Swagger UI | Interactive API documentation and testing |
@@ -88,14 +89,51 @@ The project defines four Pydantic models to validate request data and shape API 
 
 ### Request validation with `Field`
 
-`StudentCreate` validates the `name` field:
+`StudentCreate` applies length constraints to the incoming `name` field:
 
 ```python
 class StudentCreate(BaseModel):
     name: str = Field(min_length=2, max_length=50)
 ```
 
-A student name must contain at least **2 characters** and no more than **50 characters**. Invalid request data is rejected by FastAPI with HTTP `422 Unprocessable Entity`.
+A student name must contain at least **2 characters** and no more than **50 characters**. Requests that fail validation are rejected with HTTP `422 Unprocessable Entity`.
+
+### Advanced Pydantic validation with `@field_validator`
+
+The project also uses a custom Pydantic field validator to check the student name after the normal field validation:
+
+```python
+@field_validator("name", mode="after")
+@classmethod
+def validate_name(cls, value):
+    if any(char.isdigit() for char in value):
+        raise ValueError("Student name must not contain numbers")
+    return value
+```
+
+This rejects names containing digits. For example, `"Huzaifa123"` produces a validation error, while a name such as `"Huzaifa"` passes this custom check (provided it also meets the length constraints).
+
+**Important implementation note:** The current `StudentCreate` code defines both the `mode="before"` and `mode="after"` validators with the same Python method name, `validate_name`. The second definition replaces the first name in the class namespace, so the whitespace-trimming (`value.strip()`) validator is not registered as written. The digit-checking `mode="after"` validator remains. This means whitespace is not currently stripped before validation.
+
+To activate both validators, give them distinct method names, for example:
+
+```python
+@field_validator("name", mode="before")
+@classmethod
+def strip_name(cls, value):
+    if isinstance(value, str):
+        value = value.strip()
+    return value
+
+@field_validator("name", mode="after")
+@classmethod
+def reject_digits(cls, value):
+    if any(char.isdigit() for char in value):
+        raise ValueError("Student name must not contain numbers")
+    return value
+```
+
+The code above is the recommended correction for enabling both trimming and digit validation; the distinct method names need to be applied in `main.py` before claiming that whitespace trimming is active.
 
 ### Controlling output with `response_model`
 
@@ -231,8 +269,25 @@ The API uses Pydantic and FastAPI for request validation and HTTP error response
 
 - Minimum student name length: **2 characters**.
 - Maximum student name length: **50 characters**.
+- Names containing numeric digits are rejected by the active `mode="after"` field validator.
 - Invalid request data returns HTTP **422 Unprocessable Entity**.
 - A student ID that does not exist returns HTTP **404 Not Found**.
+- Whitespace trimming is intended in the `mode="before"` validator, but is not currently active because both validator methods share the same name. See [Advanced Pydantic validation](#advanced-pydantic-validation-with-field_validator) for the correction.
+
+Example `422 Unprocessable Entity` response for a name containing digits (FastAPI/Pydantic validation response):
+
+```json
+{
+  "detail": [
+    {
+      "type": "value_error",
+      "loc": ["body", "name"],
+      "msg": "Value error, Student name must not contain numbers",
+      "input": "Huzaifa123"
+    }
+  ]
+}
+```
 
 Example `404 Not Found` response:
 

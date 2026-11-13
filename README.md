@@ -1,66 +1,116 @@
-# Student Management API
+<div align="center">
 
-**A FastAPI REST API for managing student records with validated requests, consistent responses, and configurable CORS.**
+<h1>🎓 Student Management API</h1>
 
-This is a Python backend project built to practice API routing, CRUD operations, Pydantic validation, error handling, and environment-based configuration. The current implementation uses an in-memory dictionary rather than a database.
+<p><strong>A clean REST API built with Python, FastAPI and Pydantic</strong></p>
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-0f172a?style=for-the-badge&logo=python&logoColor=22d3ee)
-![FastAPI](https://img.shields.io/badge/FastAPI-REST%20API-0ea5e9?style=for-the-badge&logo=fastapi&logoColor=white)
-![Pydantic](https://img.shields.io/badge/Pydantic-v2-0f172a?style=for-the-badge&logo=pydantic&logoColor=22d3ee)
-![Uvicorn](https://img.shields.io/badge/Uvicorn-ASGI-0ea5e9?style=for-the-badge&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Functional%20Prototype-0f172a?style=for-the-badge&logoColor=22d3ee)
+<p>Create, view, update and delete student records through simple HTTP endpoints.<br>Built to practice backend development, request validation and API design.</p>
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-0f172a?style=for-the-badge&logo=python&logoColor=22d3ee" alt="Python 3.10+" />
+  <img src="https://img.shields.io/badge/FastAPI-REST%20API-0ea5e9?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI REST API" />
+  <img src="https://img.shields.io/badge/Pydantic-v2-0f172a?style=for-the-badge&logo=pydantic&logoColor=22d3ee" alt="Pydantic v2" />
+  <img src="https://img.shields.io/badge/Uvicorn-ASGI-0ea5e9?style=for-the-badge&logoColor=white" alt="Uvicorn ASGI" />
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/CRUD-5%20ENDPOINTS-0f172a?style=flat-square&labelColor=0f172a&color=22d3ee" alt="5 CRUD endpoints" />
+  <img src="https://img.shields.io/badge/DOCS-SWAGGER%20%26%20REDOC-0f172a?style=flat-square&labelColor=0f172a&color=0ea5e9" alt="Swagger and ReDoc" />
+  <img src="https://img.shields.io/badge/STORAGE-IN--MEMORY-0f172a?style=flat-square&labelColor=0f172a&color=22d3ee" alt="In-memory storage" />
+</p>
+
+<p>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/QUICK-START-0ea5e9?style=for-the-badge&logo=rocket&logoColor=white" alt="Quick Start" /></a>
+  <a href="#api-reference"><img src="https://img.shields.io/badge/API-REFERENCE-0f172a?style=for-the-badge&logo=readthedocs&logoColor=22d3ee" alt="API Reference" /></a>
+  <a href="#api-documentation"><img src="https://img.shields.io/badge/API-DOCS-22d3ee?style=for-the-badge&logo=swagger&logoColor=0f172a" alt="API Documentation" /></a>
+</p>
+
+<sub>Student backend project · Clear structure · Easy to run locally</sub>
+
+</div>
 
 ---
 
-## 1. Project Overview
+## 🔷 1. Project Overview
 
-Student Management API exposes five HTTP endpoints for creating, listing, retrieving, updating, and deleting students. Each student consists of an integer ID and a name.
+**Student Management API** is a Python backend project for managing student records using HTTP requests. I built it to practice how a REST API is structured, how requests are validated, and how a backend sends consistent JSON responses.
 
-The API is organized into an application entry point, a student router, Pydantic schemas, and a settings module. It starts with three sample students in memory: `1: Ali`, `2: Ahmad`, and `3: Huzaifa`. Changes made through the API last only while the Python process is running.
+The application starts with three sample students and keeps records in a Python dictionary during runtime. It uses separate modules for API routes, validation schemas and application settings.
 
-The implementation focuses on a clear learning-sized backend rather than claiming production readiness or features that are not present in the source code.
-
-## 2. Implemented Features
-
-- **Create a student:** `POST /students` accepts a validated name and assigns an integer ID.
-- **List students:** `GET /students` returns an array of student IDs and names.
-- **Find a student:** `GET /students/{student_id}` returns one record or an HTTP 404 error.
-- **Update a student:** `PUT /students/{student_id}` replaces an existing student's name after validation.
-- **Delete a student:** `DELETE /students/{student_id}` removes an existing student and returns a confirmation.
-- **Request validation:** Names are trimmed, must contain 2–50 characters after trimming, and cannot contain numeric digits.
-- **Response schemas:** The API defines separate response models for student details, list items, and deletion results.
-- **Error handling:** Missing IDs produce HTTP 404; invalid request data produces HTTP 422.
-- **CORS configuration:** A frontend origin and allowed methods/headers are configured through the application settings.
-- **Interactive documentation:** FastAPI provides Swagger UI and ReDoc automatically.
-
-## 3. Technology Stack
-
-| Technology | Verified use in this project |
+| Project detail | Current implementation |
 |---|---|
-| Python | Application logic and in-memory data structures |
-| FastAPI | API application, router registration, response models, and HTTP errors |
-| Pydantic v2 | Input fields, field validators, and response schemas |
-| `pydantic-settings` | Settings from environment variables and `.env` |
-| `python-dotenv` | Environment-file support (included in `requirements.txt`) |
-| Uvicorn | ASGI server used to run the application |
-| Git / GitHub | Source control and repository hosting |
+| 🎯 **Purpose** | Student record management through a REST API |
+| 🐍 **Language** | Python 3.10+ |
+| ⚡ **Framework** | FastAPI |
+| 🧩 **Validation** | Pydantic v2 |
+| 💾 **Storage** | In-memory Python dictionary |
+| 🌐 **API access** | HTTP requests and JSON responses |
+| 📚 **Documentation** | Swagger UI and ReDoc |
 
-The checked-in `requirements.txt` does not pin exact dependency versions.
+> [!NOTE]
+> This is a working **in-memory CRUD API** created as a student backend project. It does not require a database, login system or external API keys.
 
-## 4. Project Architecture and Folder Structure
+---
+
+## ✅ 2. Implemented Features
+
+| Feature | What the application actually does |
+|---|---|
+| ➕ **Create student** | Validates a name and assigns a numeric student ID |
+| 📋 **List students** | Returns every stored student as a JSON array |
+| 🔎 **Get student** | Finds a student using an integer ID |
+| ✏️ **Update student** | Replaces the name of an existing student |
+| 🗑️ **Delete student** | Removes a student and returns a confirmation message |
+| 🛡️ **Input validation** | Trims names, checks 2–50 characters and rejects digits |
+| ⚠️ **Error responses** | Returns 404 for missing students and 422 for invalid requests |
+| 🌍 **CORS** | Allows a configurable frontend origin with specified methods and headers |
+| 📖 **API docs** | Exposes Swagger UI, ReDoc and the OpenAPI schema |
+
+**Included sample records on startup:** `1 → Ali`, `2 → Ahmad`, `3 → Huzaifa`.
+
+---
+
+## 🧰 3. Technology Stack
+
+<p>
+  <img src="https://img.shields.io/badge/Python-0f172a?style=for-the-badge&logo=python&logoColor=22d3ee" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-0f172a?style=for-the-badge&logo=fastapi&logoColor=22d3ee" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Pydantic-0f172a?style=for-the-badge&logo=pydantic&logoColor=22d3ee" alt="Pydantic" />
+  <img src="https://img.shields.io/badge/Git-0f172a?style=for-the-badge&logo=git&logoColor=22d3ee" alt="Git" />
+  <img src="https://img.shields.io/badge/GitHub-0f172a?style=for-the-badge&logo=github&logoColor=22d3ee" alt="GitHub" />
+</p>
+
+| Tool / library | Role in this project |
+|---|---|
+| **FastAPI** | Defines the application, routes, response models and HTTP errors |
+| **Pydantic v2** | Validates student names and defines request/response data models |
+| **pydantic-settings** | Reads configuration from environment variables and `.env` |
+| **python-dotenv** | Provides environment-file support |
+| **Uvicorn** | Runs the ASGI application locally |
+| **Python dictionary** | Stores the active student records in memory |
+
+The supplied `requirements.txt` lists packages without fixed version numbers.
+
+---
+
+## 🧱 4. Project Architecture & Folder Structure
 
 ```text
 student-management-api/
+│
 ├── app/
 │   ├── __init__.py
 │   ├── main.py
 │   ├── config.py
+│   │
 │   ├── routers/
 │   │   ├── __init__.py
 │   │   └── students.py
+│   │
 │   └── schemas/
 │       ├── __init__.py
 │       └── student.py
+│
 ├── .env.example
 ├── .gitattributes
 ├── .gitignore
@@ -68,76 +118,87 @@ student-management-api/
 └── requirements.txt
 ```
 
-The supplied ZIP also contains local `.git/`, `.venv/`, and `__pycache__/` directories; these are development/generated artifacts rather than application source files. `.venv/` and `__pycache__/` are ignored by the provided `.gitignore`.
-
 ### Request flow
 
-```text
-HTTP request
-    |
-    v
-FastAPI app (app/main.py)
-    |
-    v
-Student router (app/routers/students.py)
-    |
-    +--> Pydantic input validation (app/schemas/student.py)
-    |
-    +--> In-memory students dictionary (in the router)
-    |
-    v
-Pydantic response model -> JSON response
+```mermaid
+flowchart TD
+    A[Client sends HTTP request] --> B[FastAPI app]
+    B --> C[Student router]
+    C --> D{Input valid?}
+    D -->|Yes| E[In-memory student records]
+    D -->|No| F[422 validation response]
+    E --> G{Student ID exists?}
+    G -->|When required: no| H[404 not found]
+    G -->|Yes or not needed| I[Pydantic response model]
+    I --> J[JSON response]
+
+    classDef navy fill:#0f172a,stroke:#22d3ee,color:#ffffff,stroke-width:2px;
+    classDef blue fill:#082f49,stroke:#0ea5e9,color:#ffffff,stroke-width:2px;
+    classDef cyan fill:#083344,stroke:#22d3ee,color:#ffffff,stroke-width:2px;
+    class A,B,C,E,I,J blue;
+    class D,G navy;
+    class F,H cyan;
 ```
 
-The **active** student store is the `students` dictionary inside `app/routers/students.py`. A separate `students` dictionary also exists in `app/main.py`, but the routes do not use that second dictionary.
+> The **active** student dictionary is located in `app/routers/students.py`. A second dictionary appears in `app/main.py` but is not used by the registered routes.
 
-## 5. File-by-File Explanation
+---
+
+## 📁 5. File-by-File Explanation
 
 | File | Responsibility |
 |---|---|
-| `app/main.py` | Creates the FastAPI application, sets its title/version, configures CORS middleware, and includes the students router. |
-| `app/config.py` | Defines `Settings` using `BaseSettings`, with defaults for application name, version, and frontend origin; loads `.env`. |
-| `app/routers/students.py` | Holds the active in-memory student dictionary and implements all five CRUD endpoints. |
-| `app/schemas/student.py` | Defines the input validator and the `StudentCreate`, `StudentResponse`, `StudentListItem`, and `StudentDeleteResponse` models. |
-| `app/__init__.py` | Marks `app` as a Python package. It has no additional logic. |
-| `app/routers/__init__.py` | Marks `routers` as a Python package. It has no additional logic. |
-| `app/schemas/__init__.py` | Marks `schemas` as a Python package. It has no additional logic. |
-| `.env.example` | Provides sample values for `APP_NAME`, `APP_VERSION`, and `FRONTEND_ORIGIN`; contains no API credentials. |
-| `.gitignore` | Ignores Python caches, virtual environments, `.env`, and pytest cache files. |
-| `.gitattributes` | Enables Git text-file line-ending normalization (`* text=auto`). |
-| `requirements.txt` | Lists `fastapi`, `uvicorn[standard]`, `pydantic-settings`, and `python-dotenv`. |
-| `README.md` | Explains the project, endpoints, configuration, and local setup. |
+| `app/main.py` | Creates the FastAPI app, sets the title/version, configures CORS and registers the student router |
+| `app/config.py` | Declares settings for the app name, version and allowed frontend origin |
+| `app/routers/students.py` | Implements all five endpoints and maintains the active in-memory records |
+| `app/schemas/student.py` | Defines Pydantic request/response models and student-name validators |
+| `app/__init__.py` | Marks `app` as a Python package |
+| `app/routers/__init__.py` | Marks `routers` as a Python package |
+| `app/schemas/__init__.py` | Marks `schemas` as a Python package |
+| `.env.example` | Template for local environment settings; does not contain secrets |
+| `.gitignore` | Excludes `.env`, virtual environments, Python caches and pytest cache |
+| `.gitattributes` | Configures text line-ending normalization in Git |
+| `requirements.txt` | Lists application dependencies |
+| `README.md` | Documents the code, endpoints and setup process |
 
-## 6. API Endpoints Reference
+The ZIP also contains local `.git/`, `.venv/` and generated `__pycache__/` directories. They are not part of the application source structure shown above.
 
-Base URL when running locally: `http://127.0.0.1:8000`
+---
 
-| HTTP method | Route | Action | Success | Other expected status codes |
+<a id="api-reference"></a>
+
+## 🌐 6. API Endpoints Reference
+
+**Local base URL:** `http://127.0.0.1:8000`
+
+| HTTP method | Endpoint | Purpose | Success | Possible error |
 |---|---|---|---|---|
-| `POST` | `/students` | Create a student | `201 Created` | `422` for invalid request body |
-| `GET` | `/students` | List all students | `200 OK` | — |
-| `GET` | `/students/{student_id}` | Retrieve one student | `200 OK` | `404` if missing; `422` if ID is not an integer |
-| `PUT` | `/students/{student_id}` | Update a student name | `200 OK` | `404` if missing; `422` for invalid ID/body |
-| `DELETE` | `/students/{student_id}` | Delete a student | `200 OK` | `404` if missing; `422` if ID is not an integer |
+| `POST` | `/students` | Add a student | **201** | 422 |
+| `GET` | `/students` | List students | **200** | — |
+| `GET` | `/students/{student_id}` | Find by ID | **200** | 404, 422 |
+| `PUT` | `/students/{student_id}` | Update a name | **200** | 404, 422 |
+| `DELETE` | `/students/{student_id}` | Delete a student | **200** | 404, 422 |
 
-`{student_id}` is a path parameter declared as an `int`. No API-key authentication or login is required by the current implementation.
+`student_id` is an integer path parameter. The API does not currently require user authentication or an API token.
 
-### Response models
+### Request and response models
 
-| Model | Fields | Used by |
+| Pydantic model | Fields | Used for |
 |---|---|---|
-| `StudentCreate` | `name: str` | `POST` and `PUT` request bodies |
-| `StudentResponse` | `student_id: int`, `name: str`, `message: str` | Create, get by ID, update |
-| `StudentListItem` | `student_id: int`, `name: str` | Each item in `GET /students` |
-| `StudentDeleteResponse` | `student_id: int`, `message: str` | Delete |
+| `StudentCreate` | `name: str` | Create and update request bodies |
+| `StudentResponse` | `student_id`, `name`, `message` | Create, retrieve and update responses |
+| `StudentListItem` | `student_id`, `name` | Entries returned by the list endpoint |
+| `StudentDeleteResponse` | `student_id`, `message` | Delete confirmation |
 
-## 7. Request and Response Examples
+---
 
-The examples below assume a **freshly started** server containing the three initial sample records. Creating `Sara` therefore produces ID `4`.
+## 🧪 7. Request & Response Examples
 
-### Create a student — `POST /students`
+These examples assume a **fresh server**, which starts with IDs `1`, `2` and `3`. Creating Sara therefore gives ID `4`.
 
-Request body:
+### ➕ Create — `POST /students`
+
+**Request:**
 
 ```json
 {
@@ -145,7 +206,7 @@ Request body:
 }
 ```
 
-Response — **201 Created**:
+**Response · 201 Created:**
 
 ```json
 {
@@ -155,9 +216,9 @@ Response — **201 Created**:
 }
 ```
 
-### List students — `GET /students`
+### 📋 List — `GET /students`
 
-Response — **200 OK** (after the creation above):
+**Response · 200 OK** (after creating Sara):
 
 ```json
 [
@@ -168,9 +229,9 @@ Response — **200 OK** (after the creation above):
 ]
 ```
 
-### Retrieve one student — `GET /students/4`
+### 🔎 Retrieve — `GET /students/4`
 
-Response — **200 OK**:
+**Response · 200 OK:**
 
 ```json
 {
@@ -180,9 +241,9 @@ Response — **200 OK**:
 }
 ```
 
-### Update a student — `PUT /students/4`
+### ✏️ Update — `PUT /students/4`
 
-Request body:
+**Request:**
 
 ```json
 {
@@ -190,7 +251,7 @@ Request body:
 }
 ```
 
-Response — **200 OK**:
+**Response · 200 OK:**
 
 ```json
 {
@@ -200,9 +261,9 @@ Response — **200 OK**:
 }
 ```
 
-### Delete a student — `DELETE /students/4`
+### 🗑️ Delete — `DELETE /students/4`
 
-Response — **200 OK**:
+**Response · 200 OK:**
 
 ```json
 {
@@ -211,9 +272,9 @@ Response — **200 OK**:
 }
 ```
 
-### Student not found — `GET /students/999`
+### ⚠️ Not found — `GET /students/999`
 
-Response — **404 Not Found**:
+**Response · 404 Not Found:**
 
 ```json
 {
@@ -221,45 +282,27 @@ Response — **404 Not Found**:
 }
 ```
 
-> The update and delete endpoints use the error message `Student not found` (lowercase “found”); the get-by-ID endpoint uses `Student not Found`, as written in the source.
+> The get-by-ID route uses `Student not Found`; the update and delete routes use `Student not found`. These are the exact strings in the uploaded source.
 
-### Try a request from Windows PowerShell
+---
 
-With Uvicorn running in another terminal:
+## 🛡️ 8. Pydantic Validation & Error Handling
 
-```powershell
-Invoke-RestMethod -Uri "http://127.0.0.1:8000/students" -Method Get
-```
+The same `StudentCreate` schema validates the `name` field in **POST** and **PUT** requests.
 
-To create a student:
-
-```powershell
-Invoke-RestMethod -Uri "http://127.0.0.1:8000/students" -Method Post -ContentType "application/json" -Body '{"name":"Sara"}'
-```
-
-## 8. Pydantic Validation and Error Handling
-
-The `StudentCreate` model validates the `name` field used by **both POST and PUT**:
-
-1. A `mode="before"` validator applies `.strip()` when the input is a string.
-2. Pydantic checks the field type and the declared length: **2–50 characters**.
-3. A `mode="after"` validator rejects any name containing a digit (`char.isdigit()`).
-
-Examples:
-
-| Input `name` | Outcome |
+| Rule | Actual behavior |
 |---|---|
-| `"  Sara  "` | Accepted and stored as `"Sara"` |
-| `"A"` | Rejected: fewer than 2 characters |
-| `"Ali2"` | Rejected: name contains a digit |
-| A string longer than 50 characters | Rejected |
-| Missing `name` | Rejected: required field |
+| **Trim spaces** | Removes leading and trailing spaces before checking length |
+| **Required name** | Rejects a missing `name` field |
+| **Length** | Accepts 2–50 characters after trimming |
+| **Digits** | Rejects a name if any character is a numeric digit |
+| **Input type** | Pydantic checks that the field is a string |
 
-The validator **does not** enforce an alphabetic-only name; punctuation and other non-numeric characters are not explicitly rejected by the current code.
+**Examples:** `"  Sara  "` becomes `"Sara"` and is accepted; `"A"` and `"Ali2"` are rejected. The current validator does **not** explicitly reject punctuation or every non-alphabetic character.
 
-### Validation error — HTTP 422
+### Validation response · 422
 
-For a request body of `{"name":" x "}`, the name becomes `"x"` after trimming and fails the minimum-length check. A representative response from the inspected implementation is:
+For the request body `{"name":" x "}`, trimming produces `"x"`, which is too short. A representative validation response is:
 
 ```json
 {
@@ -275,43 +318,40 @@ For a request body of `{"name":" x "}`, the name becomes `"x"` after trimming an
 }
 ```
 
-FastAPI/Pydantic can include different or additional error-detail fields depending on the installed versions.
+Depending on installed FastAPI/Pydantic versions, error objects can contain additional fields.
 
-Missing student IDs are handled explicitly with `HTTPException(status_code=404, ...)`, whereas request-body and integer path-parameter validation are handled automatically by FastAPI/Pydantic.
+**HTTP 404** is raised explicitly for missing student IDs. **HTTP 422** is returned automatically for request validation errors and invalid integer path parameters.
 
-## 9. CORS Configuration
+---
 
-`app/main.py` registers `CORSMiddleware` with the following settings:
+## 🌍 9. CORS Configuration
 
-| Option | Current value |
+The application registers FastAPI's `CORSMiddleware` in `app/main.py`.
+
+| Setting | Configured value |
 |---|---|
-| Allowed origins | A one-item list containing `settings.frontend_origin` |
-| Default allowed origin | `http://localhost:3000` |
+| Allowed frontend origin | `settings.frontend_origin` |
+| Default origin | `http://localhost:3000` |
 | Allowed methods | `GET`, `POST`, `PUT`, `DELETE` |
 | Allowed headers | `Content-Type`, `Authorization` |
 | Allow credentials | `False` |
 
-Update `FRONTEND_ORIGIN` in `.env` if a frontend runs at a different origin. The value must match the frontend's **scheme, hostname, and port**. For example, `http://127.0.0.1:3000` and `http://localhost:3000` are different origins.
+Set `FRONTEND_ORIGIN` in `.env` to the URL used by your frontend. The **scheme, hostname and port** must match; for instance, `localhost:3000` and `127.0.0.1:3000` are different origins.
 
-CORS controls browser cross-origin access; it does **not** provide authentication or authorization.
+> [!IMPORTANT]
+> CORS controls browser cross-origin access. It is **not** a login or authorization mechanism.
 
-## 10. Environment Variables and Configuration
+---
 
-Configuration is defined by `Settings` in `app/config.py`. It reads environment variables and an optional root-level `.env` file. The repository includes `.env.example` as a template.
+## ⚙️ 10. Environment Variables & Configuration
 
-| Variable | Example/default | What it controls |
-|---|---|---|
-| `APP_NAME` | `Student Management API` | Title shown in generated API documentation |
-| `APP_VERSION` | `1.0.0` | Version displayed by FastAPI/OpenAPI |
-| `FRONTEND_ORIGIN` | `http://localhost:3000` | Allowed browser frontend origin for CORS |
-
-Create your local configuration in Windows PowerShell:
+The `Settings` class in `app/config.py` reads environment variables and an optional `.env` file. Start with the provided `.env.example`:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-The resulting `.env` file can contain:
+Then edit the local `.env` as needed:
 
 ```dotenv
 APP_NAME=Student Management API
@@ -319,118 +359,175 @@ APP_VERSION=1.0.0
 FRONTEND_ORIGIN=http://localhost:3000
 ```
 
-All three settings have defaults in `app/config.py`. **No API tokens, passwords, or database credentials are required by the current project.** The `.env` file is ignored by `.gitignore` and should remain local. Restart the API after changing configuration values.
+| Variable | Purpose |
+|---|---|
+| `APP_NAME` | Title shown in FastAPI/OpenAPI documentation |
+| `APP_VERSION` | API version displayed in generated documentation |
+| `FRONTEND_ORIGIN` | Browser origin allowed by CORS |
 
-## 11. Installation and Setup (Windows PowerShell)
+All three have defaults in `app/config.py`. **No API secrets, database credentials or external service keys are required.** The `.env` file is excluded from Git tracking by `.gitignore`.
 
-**Prerequisites:** Python 3.10 or newer, Git, and Windows PowerShell.
+---
 
-### Step 1 — Clone the repository
+<a id="quick-start"></a>
+
+## 🚀 11. Installation & Setup — Windows PowerShell
+
+**You need:** Python 3.10+, Git and Windows PowerShell.
+
+### Step 1 · Clone the repository
 
 ```powershell
 git clone https://github.com/huzaifa2612/student-management-api.git
 cd student-management-api
 ```
 
-### Step 2 — Create a virtual environment
+### Step 2 · Create a virtual environment
 
 ```powershell
 py -m venv .venv
 ```
 
-If the Python launcher (`py`) is unavailable, use `python -m venv .venv`.
+If `py` is unavailable, use `python -m venv .venv`.
 
-### Step 3 — Activate the virtual environment
+### Step 3 · Activate it
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-If PowerShell blocks activation, you can allow local script execution **for the current terminal session only** and then retry activation:
+If PowerShell blocks activation, enable scripts only for the **current terminal session**:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 .\.venv\Scripts\Activate.ps1
 ```
 
-### Step 4 — Install project dependencies
+### Step 4 · Install dependencies
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-### Step 5 — Create your local `.env`
+### Step 5 · Create local configuration
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Open `.env` and adjust only the values appropriate for your local application. You do not need to create a database or obtain credentials.
+You can keep the default values initially. There is no database to set up.
 
-## 12. Running the Application
+---
 
-From the repository root, with the virtual environment active:
+## ▶️ 12. Running the Application
+
+From the project root, with your virtual environment activated:
 
 ```powershell
 python -m uvicorn app.main:app --reload
 ```
 
-The server normally listens at:
+Once the server starts, open:
 
-- API base URL: `http://127.0.0.1:8000`
-- Students endpoint: `http://127.0.0.1:8000/students`
-- Swagger UI: `http://127.0.0.1:8000/docs`
-- ReDoc: `http://127.0.0.1:8000/redoc`
+| Resource | Local address |
+|---|---|
+| Student API | `http://127.0.0.1:8000/students` |
+| Swagger UI | `http://127.0.0.1:8000/docs` |
+| ReDoc | `http://127.0.0.1:8000/redoc` |
+| OpenAPI JSON | `http://127.0.0.1:8000/openapi.json` |
 
-Use **Ctrl + C** in the terminal to stop the server.
+Press **Ctrl + C** to stop the server.
 
-**Important:** The entry point is `app.main:app`. A command such as `uvicorn main:app --reload` is not correct for this repository structure. The root path `/` is not a defined application endpoint.
+> Use `app.main:app` because the application instance is inside `app/main.py`. A root `GET /` endpoint is not defined.
 
-## 13. Swagger UI and ReDoc Documentation
+### Try it directly in PowerShell
 
-FastAPI exposes interactive API documentation automatically:
+List students:
 
-| Page | Local URL | Purpose |
-|---|---|---|
-| Swagger UI | [`/docs`](http://127.0.0.1:8000/docs) | Explore endpoints, provide JSON bodies, and use **Try it out** |
-| ReDoc | [`/redoc`](http://127.0.0.1:8000/redoc) | Read structured reference documentation |
-| OpenAPI schema | [`/openapi.json`](http://127.0.0.1:8000/openapi.json) | View the generated OpenAPI JSON |
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/students" -Method Get
+```
 
-These links work after the local server starts. The CRUD endpoints appear under the **Students Management** tag defined in `app/routers/students.py`.
+Create a student:
 
-## 14. Current Project Limitations
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/students" -Method Post -ContentType "application/json" -Body '{"name":"Sara"}'
+```
 
-This is a functional **in-memory CRUD prototype**, not a production student-information system.
+---
 
-- **No persistent storage:** All changes disappear when the server process restarts; the three sample records are recreated.
-- **No database or ORM:** PostgreSQL, SQLite, SQLAlchemy, and database migrations are not implemented.
-- **No authentication or authorization:** JWT, user accounts, and role-based access control are not implemented.
-- **No automated project tests:** The ZIP contains no dedicated Pytest test suite.
-- **No Docker or deployment setup:** No Dockerfile, Compose configuration, or hosting/deployment configuration is present.
-- **No filtering, pagination, or sorting endpoints:** `GET /students` returns the complete in-memory collection.
-- **Simple ID allocation:** The next ID is `max(existing_ids) + 1`, so an ID may be reused after deleting the highest-numbered record.
-- **Duplicate sample dictionary:** `app/main.py` has a `students` dictionary that is not used by the router; the active storage is in `app/routers/students.py`.
-- **Unpinned dependency versions:** `requirements.txt` does not lock package versions.
+<a id="api-documentation"></a>
 
-## 15. Future Improvements (Not Implemented)
+## 📖 13. Swagger UI & ReDoc Documentation
 
-Potential next steps for a more complete backend project include:
+FastAPI automatically generates documentation from the registered endpoints and Pydantic models.
 
-- Add persistent storage using SQLite or PostgreSQL, with an appropriate data-access layer or ORM.
-- Introduce authentication, authorization, and protected write operations.
-- Add automated tests covering CRUD routes, validation, errors, and CORS behavior.
-- Improve ID generation and remove the unused duplicate dictionary.
-- Add filtering, sorting, pagination, and richer student fields if project requirements expand.
-- Pin or lock dependencies and add CI checks.
-- Add containerization and a documented deployment workflow.
+<p>
+  <a href="http://127.0.0.1:8000/docs"><img src="https://img.shields.io/badge/OPEN-SWAGGER%20UI-0ea5e9?style=for-the-badge&logo=swagger&logoColor=white" alt="Open local Swagger UI" /></a>
+  <a href="http://127.0.0.1:8000/redoc"><img src="https://img.shields.io/badge/OPEN-REDOC-0f172a?style=for-the-badge&logoColor=22d3ee" alt="Open local ReDoc" /></a>
+</p>
 
-These items are **ideas for later development**, not features included in the uploaded source.
+- **Swagger UI (`/docs`)** — inspect endpoints, provide request bodies and click **Try it out**.
+- **ReDoc (`/redoc`)** — read the generated reference documentation.
+- **OpenAPI JSON (`/openapi.json`)** — access the machine-readable API schema.
 
-## 16. Author and Repository Information
+These links work **after the application is running locally**. Routes appear under the **Students Management** tag.
 
-**Muhammad Huzaifa** — Computer Science Student
+---
 
-- GitHub: [huzaifa2612](https://github.com/huzaifa2612)
-- Repository: [student-management-api](https://github.com/huzaifa2612/student-management-api)
+## ⚠️ 14. Current Project Limitations
 
-Built as a hands-on Python backend project to practice REST API design, validation, modular application structure, and local development with FastAPI.
+The CRUD functionality works, but this project is intentionally scoped as an in-memory backend.
+
+| Current limitation | What it means |
+|---|---|
+| **No persistent database** | Changes disappear after restarting the server; the three sample records return |
+| **No authentication** | No login, JWT or user authorization is implemented |
+| **No database ORM** | PostgreSQL, SQLite and SQLAlchemy are not connected |
+| **No project test suite** | The ZIP does not include dedicated Pytest tests |
+| **No deployment setup** | No Docker or hosting configuration is included |
+| **No filtering/pagination** | The list endpoint returns all current students |
+| **Simple ID assignment** | Uses `max(existing IDs) + 1`; deleting the highest ID can allow reuse |
+| **Unused duplicate dictionary** | `app/main.py` contains student data not used by the router |
+| **Unpinned dependencies** | `requirements.txt` does not lock package versions |
+
+---
+
+## 🔮 15. Future Improvements
+
+These are **ideas for future work** and are not part of the current code:
+
+- Add persistent storage using SQLite or PostgreSQL and a suitable data-access layer.
+- Add authentication and authorization to protect changes.
+- Write automated API tests for CRUD operations and validation errors.
+- Improve student ID generation and remove unused duplicate data.
+- Add pagination, filtering, sorting and additional student fields if needed.
+- Lock dependency versions and introduce continuous integration checks.
+- Add Docker support and deployment documentation.
+
+---
+
+## 👨‍💻 16. Author & Repository
+
+**Muhammad Huzaifa** · Computer Science student
+
+<p>
+  <a href="https://github.com/huzaifa2612"><img src="https://img.shields.io/badge/GITHUB-PROFILE-0f172a?style=for-the-badge&logo=github&logoColor=22d3ee" alt="GitHub profile" /></a>
+  <a href="https://github.com/huzaifa2612/student-management-api"><img src="https://img.shields.io/badge/VIEW-REPOSITORY-0ea5e9?style=for-the-badge&logo=github&logoColor=white" alt="View repository" /></a>
+</p>
+
+Built as a hands-on FastAPI backend project to practice REST APIs, validation, modular application design and local development.
+
+---
+
+<div align="center">
+
+<strong>Student Management API</strong> · Built with Python, FastAPI & Pydantic
+
+<p>
+  <img src="https://img.shields.io/badge/BUILD-REST%20APIS-0f172a?style=flat-square&logoColor=22d3ee" alt="Build REST APIs" />
+  <img src="https://img.shields.io/badge/PRACTICE-VALIDATION-0f172a?style=flat-square&logoColor=22d3ee" alt="Practice validation" />
+  <img src="https://img.shields.io/badge/LEARN-BACKEND-0f172a?style=flat-square&logoColor=22d3ee" alt="Learn backend" />
+</p>
+
+</div>
